@@ -1,10 +1,13 @@
 import React from 'react'
 import WebcamCapture from './Webcam'
+import { Redirect } from 'react-router-dom'
 
 function AddBikeForm(props) {
 
     //props.onAdd = function
-
+    if (!props.loggedInUser) {
+        return <Redirect to={'/sign-in'} />
+    }
     
 
     return (

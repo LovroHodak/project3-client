@@ -19,6 +19,8 @@ import FreeDetail from './components/FreeDetail'
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import BikeSortPriceDown from './components/BikeSortPriceDown'
+import BikeSortPriceUp from './components/BikeSortPriceUp'
+
 
 
 
@@ -32,7 +34,8 @@ class App extends Component {
     frees: [],
     loggedInUser: null,
     errorMessage: null,
-    bikeSortPriceDown: []
+    bikeSortPriceDown: [],
+    bikeSortPriceUp: []
   }
 
   componentDidMount() {
@@ -45,17 +48,23 @@ class App extends Component {
         })
     }
 
-    axios.get(`http://localhost:5000/api/bikes`)
-      .then((response) => {
-        this.setState({
-          bikes: response.data
-        })
-    })
 
     axios.get(`http://localhost:5000/api/bikes`)
     .then((response) => {
+      let sortedDown = JSON.parse(JSON.stringify(response.data))
+      let sortedUp = JSON.parse(JSON.stringify(response.data))
       this.setState({
-        bikeSortPriceDown: response.data.sort((a, b) => {return a.price - b.price})
+        bikes: response.data.sort((a, b) => {
+          if(a.city < b.city){
+            return -1
+          } else if (a.city > b.city){
+            return 1
+          } else {
+            return 0
+          }
+        }),
+        bikeSortPriceDown: sortedDown.sort((a, b) => {return a.price - b.price}),
+        bikeSortPriceUp: sortedUp.sort((a, b) => {return b.price - a.price})
       })
     })
 
@@ -109,6 +118,26 @@ class App extends Component {
 
 
   }
+
+  uploadPassImage= e => {
+    const files = Array.of(this.state.passImage)
+    
+    
+        const formData = new FormData()
+    
+        files.forEach((file, i) => {
+          formData.append(i, file)
+        })
+          fetch(`http://localhost:3030/imageUploadPassImage`, {
+            method: 'POST',
+            body: formData
+          })
+          .then(res => res.json())
+          .then(images => {
+            this.setState({passImage: images[0].url}) 
+    //sets the data in the state for uploading into SQL database later
+          })
+        }
 
   handleAddStuff = (e) => {
     e.preventDefault()
@@ -236,7 +265,7 @@ class App extends Component {
     })
     .then(() => {
         let updatedBikes = this.state.bikes.map((myBike) => {
-          if (myBike._id == bike._id) {
+          if (myBike._id === bike._id) {
             myBike = bike
           }
           return myBike
@@ -316,11 +345,11 @@ class App extends Component {
     
 
     return (
-      <div style={{overflow: 'carousel', marginBottom: '20px', backgroundColor: '#e2eafc'}}>
+      <div style={{overflow: 'carousel', marginBottom: '20px', backgroundColor: 'f9f9f9'}}>
         
         <Nav loggedInUser={loggedInUser} onLogout={this.handleLogOut} />
         {
-          loggedInUser ? (<h5>Hey there, {loggedInUser.username}!</h5>) : null
+          loggedInUser ? (<h5 style={{color: '#255ed6'}} >Hey there, {loggedInUser.username}!</h5>) : null
         }
 
         <Switch>
@@ -328,10 +357,10 @@ class App extends Component {
             return <BikeList bikes={this.state.bikes} />
           }} />
           <Route path='/sellBike' render={() => {
-            return <AddBikeForm loggedInUser={loggedInUser} onAdd={this.handleAdd} />
+            return <AddBikeForm loggedInUser={loggedInUser} onAdd={this.handleAdd} onUpload={this.uploadPassImage} />
           }} />
-          <Route path='/bike/:bikeId' loggedInUser={loggedInUser} render={(routeProps) => {
-            return <BikeDetail onDelete={this.handleDelete} {...routeProps}/>
+          <Route exact path='/bike/:bikeId'  render={(routeProps) => {
+            return <BikeDetail onDelete={this.handleDelete} loggedInUser={loggedInUser} {...routeProps}/>
           }} />
           <Route path="/bike/:bikeId/edit" render={(routeProps) => {
               return <EditForm loggedInUser={loggedInUser} onEdit={this.handleEdit} {...routeProps} />
@@ -367,7 +396,10 @@ class App extends Component {
           <Route exact path='/bikeSortPriceDown' render={() => {
             return <BikeSortPriceDown bikeSortPriceDown={this.state.bikeSortPriceDown} />
           }} />
-          
+          <Route exact path='/bikeSortPriceUp' render={() => {
+            return <BikeSortPriceUp bikeSortPriceUp={this.state.bikeSortPriceUp} />
+          }} />
+         
 
           
 

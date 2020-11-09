@@ -60,15 +60,16 @@ class EditForm extends Component {
 
 
     render() {
-        const {price, size, bikeType, phone, city} = this.state.bike
+        const {price, size, bikeType, phone, city, image} = this.state.bike
 
         return (
             <div>
-                <input onChange={this.handlePriceChange} type="number" value={price} ></input>
-                <input  onChange={this.handleSizeChange} type="text" value={size} ></input>
-                <input onChange={this.handleBikeTypeChange} type="text" value={bikeType} ></input>
-                <input  onChange={this.handlePhoneChange} type="number" value={phone} ></input>
-                <input onChange={this.handleCityChange} type="text" value={city} ></input>
+                <img src={image} alt={'bike'} style={{width: '250px', border: '2px solid black'}} />
+                <h3 style={{marginTop: '5px'}}>Price: <input onChange={this.handlePriceChange} type="number" value={price} style={{width: '150px'}}></input> €</h3>
+                <h3 style={{marginTop: '5px'}}>City: {city}</h3>
+                <h3 style={{marginTop: '5px'}}>Size: {size}</h3>
+                <h3 style={{marginTop: '5px'}}>Bike type: {bikeType} </h3>
+                <h3 style={{marginTop: '5px'}}>Phone: +386 {phone}</h3>
                 <button onClick={() => { this.props.onEdit(this.state.bike) }  } >Edit</button>
             </div>
         )

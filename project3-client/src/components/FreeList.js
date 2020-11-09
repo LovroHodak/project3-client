@@ -21,11 +21,11 @@ function FreeList(props) {
     <div>
        <h1>Free Stuff  </h1>
           {
-            props.frees.map((free) => {
+            props.frees.map((free, i) => {
               return(
                 <Link to={`/free/${free._id}`}>
-                    <div style={{display: 'flex'}} >
-                      <div key={free._id} style={{display: 'flex', border: '2px solid black', width: '100%', marginRight: '30px', marginTop: '5px'}} >
+                    <div key={free._id} style={{display: 'flex'}} >
+                      <div style={{display: 'flex', border: '2px solid black', width: '100%', marginRight: '30px', marginTop: '5px'}} >
                         <img src={free.image} alt={'stuff'} style={{width: '130px', height: '80px', margin: '2px'}}/>
                         <div style={{marginLeft: '5px'}} >
                           <p>Name: {free.nameFree}</p>

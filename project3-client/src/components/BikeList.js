@@ -4,23 +4,32 @@ import {Link} from 'react-router-dom'
 function BikeList(props) {
 
     return (
-        <div>
-           <nav style={{display: 'flex'}}>
-               <h3 style={{marginRight: '5px', marginTop: '4px'}}>Sort : </h3> 
-               <button style={{borderRadius: '20px', height: '35px', backgroundColor: '#abc4ff', border: '0px', marginTop: '7px'}}><Link to="/bikeSortPriceDown"><p style={{marginTop: '7px', marginLeft: '5px', marginRight: '5px', fontSize: '12px', color: 'black', fontFamily: 'helvetica'}} >PRICE DOWN</p></Link></button>
+        <div style={{backgroundColor: '#f9f9f9'}}>
+           <nav style={{display: 'flex', backgroundColor: '#f9f9f9', justifyContent: 'space-around'}}>
+                <Link to="/bikeSortPriceDown">
+                    <button style={{marginTop: '10px', width: '120px', borderRadius: '20px', color: '#255ed6', border: '2px solid #255ed6'}}>
+                        <h6 style={{marginTop: '3px'}}>Price down</h6>
+                    </button>
+                </Link>
+
+                <Link to="/bikeSortPriceUp">
+                    <button style={{marginTop: '10px', width: '120px', borderRadius: '20px', marginRight: '30px', color: '#255ed6', border: '2px solid #255ed6'}}>
+                        <h6 style={{marginTop: '3px'}}>Price up</h6>
+                    </button>
+                </Link>
              
                
            </nav>
            {
-               props.bikes.map((bike) => {
+               props.bikes.map((bike, i) => {
                     return(
-                        <Link to={`/bike/${bike._id}`}>
-                            <div style={{display: 'flex'}} >
-                                <div key={bike._id} style={{display: 'flex',  width: '100%', marginRight: '30px', marginTop: '10px', backgroundColor: '#ccdbfd', borderRadius: '7px'}} >
+                        <Link to={`/bike/${bike._id}`} key={bike._id}>
+                            <div style={{display: 'flex', backgroundColor: '#f9f9f9'}} >
+                                <div style={{display: 'flex',  width: '100%', marginRight: '30px', marginTop: '10px', backgroundColor: '#ccdbfd', borderRadius: '7px'}} >
                                     <img src={bike.image} alt={bike} style={{width: '130px', height: '80px', margin: '2px', borderRadius: '7px'}}/>
-                                    <div style={{marginLeft: '5px'}} >
-                                        <p>Price: {bike.price} €</p>
-                                        <p>City: {bike.city}</p>
+                                    <div style={{marginLeft: '7px', marginBottom: '0px'}} >
+                                        <h5 style={{marginTop: '5px'}}> {bike.price} €</h5>
+                                        <p>{bike.city}</p>
                                     </div>
                                 </div>
                             </div>

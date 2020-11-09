@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
  
 
 
-const WebcamCapture = () => {
+const WebcamCapture = (props) => {
     const webcamRef = React.useRef(null);
     const [imgSrc, setImgSrc] = React.useState(null);
   
@@ -28,9 +28,13 @@ const WebcamCapture = () => {
                   src={imgSrc} alt={'screenshot'}
                   style={{marginBottom: '10px'}}
                 />
-                <button style={{marginBottom: '10px'}}>Doesn't work yet</button>
+                <button onClick={props.onUpload} style={{marginBottom: '10px'}}>Doesn't work yet</button>
+                <p>Copy image URL</p>
+                <input value={imgSrc} style={{marginBottom: '10px'}}></input>
+                
               </div>
           )}
+          
         </div>
     );
   };

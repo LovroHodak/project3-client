@@ -24,21 +24,36 @@ export default class BikeDetail extends Component {
     render() {
 
         const {price, size, bikeType, image, phone, city, _id} = this.state.bike
+        const {loggedInUser} = this.props
+
+        
 
         return (
             <div>
                 <div>
-                    <img src={image} alt={'bike'} style={{width: '250px', border: '2px solid black'}} /> 
+                    <img src={image} alt={'bike'} style={{width: '290px', borderRadius: '20px'}} /> 
                 </div>
                 <div style={{marginTop: '15px'}}>       
-                    <h3 style={{marginTop: '5px'}}>Price: {price} €</h3>
-                    <h3 style={{marginTop: '5px'}}>City: {city}</h3>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}} >
+                        <h2 style={{marginTop: '5px', color: '#255ed6'}}>{city}</h2>
+                        <h2 style={{marginTop: '5px', marginRight: '35px', color: '#255ed6'}}>{price} €</h2>
+                    </div>
                     <h3 style={{marginTop: '5px'}}>Size: {size}</h3>
                     <h3 style={{marginTop: '5px'}}>Bike type: {bikeType} </h3>
+                    <h2 style={{marginTop: '15px', color: '#255ed6'}}>+386 {phone}</h2>
+                    { 
+                        loggedInUser ? (
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <Link to={`/bike/${_id}/edit`} >
+                                    <button style={{marginTop: '15px', width: '120px', borderRadius: '20px'}}><h3>Edit</h3></button>
+                                </Link>
+                                <button onClick={() => { this.props.onDelete(_id) } }  style={{marginTop: '15px', width: '120px', marginRight: '35px', borderRadius: '20px', color: 'white', backgroundColor: '#d64e25'}}>
+                                    <h3>Delete</h3>
+                                </button>
+                            </div>
+                            ) : (<div></div>)
+                        }
                     
-                    <h3 style={{marginTop: '5px'}}>Phone: +386 {phone}</h3>
-                    <Link to={`/bike/${_id}/edit`} ><button>Edit</button></Link>
-                    <button onClick={() => { this.props.onDelete(_id) } } style={{marginTop: '15px', marginLeft: '90px'}}><h2>Delete</h2></button>
                 </div> 
             </div>
         )

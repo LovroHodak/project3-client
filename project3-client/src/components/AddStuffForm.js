@@ -1,9 +1,13 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 
 function AddStuffForm(props) {
 
     //props.onAdd = function
-
+    if (!props.loggedInUser) {
+        return <Redirect to={'/sign-in'} />
+    }
+    
     
 
     return (

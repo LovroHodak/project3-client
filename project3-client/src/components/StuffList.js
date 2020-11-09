@@ -21,11 +21,11 @@ function StuffList(props) {
     <div>
        <h1>STUFFS for sale  </h1>
           {
-            props.stuffs.map((stuff) => {
+            props.stuffs.map((stuff, i) => {
               return(
                   <Link to={`/stuff/${stuff._id}`}>
-                    <div style={{display: 'flex'}} >
-                      <div key={stuff._id} style={{display: 'flex', border: '2px solid black', width: '100%', marginRight: '30px', marginTop: '5px'}} >
+                    <div key={stuff._id} style={{display: 'flex'}} >
+                      <div style={{display: 'flex', border: '2px solid black', width: '100%', marginRight: '30px', marginTop: '5px'}} >
                         <img src={stuff.image} alt={'stuff'} style={{width: '130px', height: '80px', margin: '2px'}}/>
                         <div style={{marginLeft: '5px'}} >
                           <p>Price: {stuff.priceStuff} €</p>
