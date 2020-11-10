@@ -13,6 +13,7 @@ import EditForm from './components/EditForm'
 import StuffList from './components/StuffList'
 import AddStuffForm from './components/AddStuffForm'
 import StuffDetail from './components/StuffDetail'
+import EditFormStuff from './components/EditFormStuff'
 import FreeList from './components/FreeList'
 import AddFreeForm from './components/AddFreeForm'
 import FreeDetail from './components/FreeDetail'
@@ -20,6 +21,8 @@ import SignIn from './components/SignIn'
 import SignUp from './components/SignUp'
 import BikeSortPriceDown from './components/BikeSortPriceDown'
 import BikeSortPriceUp from './components/BikeSortPriceUp'
+import StuffSortPriceDown from './components/StuffSortPriceDown'
+import StuffSortPriceUp from './components/StuffSortPriceUp'
 
 
 
@@ -35,7 +38,9 @@ class App extends Component {
     loggedInUser: null,
     errorMessage: null,
     bikeSortPriceDown: [],
-    bikeSortPriceUp: []
+    bikeSortPriceUp: [],
+    stuffSortPriceDown: [],
+    stuffSortPriceUp: []
   }
 
   componentDidMount() {
@@ -70,15 +75,35 @@ class App extends Component {
 
     axios.get(`http://localhost:5000/api/stuffs`)
     .then((response) => {
+      let sorteddDown = JSON.parse(JSON.stringify(response.data))
+      let sorteddUp = JSON.parse(JSON.stringify(response.data))
       this.setState({
-        stuffs: response.data
+        stuffs: response.data.sort((a, b) => {
+          if(a.cityStuff < b.cityStuff){
+            return -1
+          } else if (a.cityStuff > b.cityStuff){
+            return 1
+          } else {
+            return 0
+          }
+        }),
+        stuffSortPriceDown: sorteddDown.sort((a, b) => {return a.priceStuff - b.priceStuff}),
+        stuffSortPriceUp: sorteddUp.sort((a, b) => {return b.priceStuff - a.priceStuff})
       })
     })
 
     axios.get(`http://localhost:5000/api/frees`)
     .then((response) => {
       this.setState({
-        frees: response.data
+        frees: response.data.sort((a, b) => {
+          if(a.city < b.city){
+            return -1
+          } else if (a.city > b.city){
+            return 1
+          } else {
+            return 0
+          }
+        })
       })
     })
   }
@@ -279,6 +304,30 @@ class App extends Component {
     })
   }
 
+  handleEditStuff = (stuff) => {
+    axios.patch(`http://localhost:5000/api/stuffs/${stuff._id}`, {
+      categoryStuff: stuff.categoryStuff,
+      priceStuff: stuff.priceStuff,
+      nameStuff: stuff.nameStuff,
+      phoneStuff: stuff.phoneStuff,
+      cityStuff: stuff.cityStuff
+    })
+    .then(() => {
+        let updatedStuffs = this.state.stuffs.map((myStuff) => {
+          if (myStuff._id === stuff._id) {
+            myStuff = stuff
+          }
+          return myStuff
+        })
+
+        this.setState({
+          stuffs: updatedStuffs
+        }, () => {
+          this.props.history.push('/bikeStuff')
+        })
+    })
+  }
+
   handleSignUp = (e) => {
     e.preventDefault()
     const {username, email, password} = e.target
@@ -362,7 +411,7 @@ class App extends Component {
           <Route exact path='/bike/:bikeId'  render={(routeProps) => {
             return <BikeDetail onDelete={this.handleDelete} loggedInUser={loggedInUser} {...routeProps}/>
           }} />
-          <Route path="/bike/:bikeId/edit" render={(routeProps) => {
+          <Route exact path="/bike/:bikeId/edit" render={(routeProps) => {
               return <EditForm loggedInUser={loggedInUser} onEdit={this.handleEdit} {...routeProps} />
             }} />
 
@@ -372,9 +421,13 @@ class App extends Component {
           <Route path='/sellStuffs' render={() => {
             return <AddStuffForm loggedInUser={loggedInUser} onAddStuff={this.handleAddStuff} />
           }} />
-          <Route path='/stuff/:stuffId' render={(routeProps) => {
+          <Route exact path='/stuff/:stuffId' render={(routeProps) => {
             return <StuffDetail loggedInUser={loggedInUser} onDeleteStuff={this.handleDeleteStuff} {...routeProps}/>
           }} />
+          <Route exact path="/stuff/:stuffId/edit" render={(routeProps) => {
+              return <EditFormStuff loggedInUser={loggedInUser} onEditStuff={this.handleEditStuff} {...routeProps} />
+            }} />
+          
 
           <Route exact path='/freeStuff' render={() => {
             return <FreeList frees={this.state.frees} />
@@ -382,7 +435,7 @@ class App extends Component {
           <Route path='/giveAway' render={() => {
             return <AddFreeForm loggedInUser={loggedInUser}  onAddFree={this.handleAddFree} />
           }} />
-          <Route path='/free/:freeId' render={(routeProps) => {
+          <Route exact path='/free/:freeId' render={(routeProps) => {
             return <FreeDetail loggedInUser={loggedInUser} onDeleteFree={this.handleDeleteFree} {...routeProps}/>
           }} />
           
@@ -398,6 +451,13 @@ class App extends Component {
           }} />
           <Route exact path='/bikeSortPriceUp' render={() => {
             return <BikeSortPriceUp bikeSortPriceUp={this.state.bikeSortPriceUp} />
+          }} />
+
+          <Route exact path='/stuffSortPriceDown' render={() => {
+            return <StuffSortPriceDown stuffSortPriceDown={this.state.stuffSortPriceDown} />
+          }} />
+          <Route exact path='/stuffSortPriceUp' render={() => {
+            return <StuffSortPriceUp stuffSortPriceUp={this.state.stuffSortPriceUp} />
           }} />
          
 

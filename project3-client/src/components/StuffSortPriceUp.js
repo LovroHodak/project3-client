@@ -1,36 +1,35 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 
-function BikeSortPriceDown(props) {
+function StuffSortPriceUp(props) {
 
     return (
         <div>
            <nav style={{display: 'flex', backgroundColor: '#f9f9f9', justifyContent: 'space-around'}}>
-                <Link to="/">
+                <Link to="/stuffSortPriceDown">
                     <button style={{marginTop: '10px', width: '120px', borderRadius: '20px', color: '#255ed6', border: '2px solid #255ed6'}}>
-                        <h6 style={{marginTop: '3px'}}>City</h6>
+                        <h6 style={{marginTop: '3px'}}>Price down</h6>
                     </button>
                 </Link>
 
-                <Link to="/bikeSortPriceUp">
+                <Link to="/bikeStuff">
                     <button style={{marginTop: '10px', width: '120px', borderRadius: '20px', marginRight: '30px', color: '#255ed6', border: '2px solid #255ed6'}}>
-                        <h6 style={{marginTop: '3px'}}>Price up</h6>
+                        <h6 style={{marginTop: '3px'}}>City</h6>
                     </button>
                 </Link>
              
                
            </nav>
-           
            {
-               props.bikeSortPriceDown.map((bike, i) => {
+               props.stuffSortPriceUp.map((stuff, i) => {
                     return(
-                        <Link to={`/bike/${bike._id}`} key={bike._id}>
-                            <div style={{display: 'flex', backgroundColor: '#f9f9f9'}} >
+                        <Link to={`/stuff/${stuff._id}`}>
+                        <div style={{display: 'flex', backgroundColor: '#f9f9f9'}} >
                                 <div style={{display: 'flex',  width: '100%', marginRight: '30px', marginTop: '10px', backgroundColor: '#ccdbfd', borderRadius: '7px'}} >
-                                    <img src={bike.image} alt={bike} style={{width: '130px', height: '80px', margin: '2px', borderRadius: '7px'}}/>
+                                    <img src={stuff.image} alt={'stuff'} style={{width: '130px', height: '80px', margin: '2px', borderRadius: '7px'}}/>
                                     <div style={{marginLeft: '7px', marginBottom: '0px'}} >
-                                        <h5 style={{marginTop: '5px'}}> {bike.price} €</h5>
-                                        <p>{bike.city}</p>
+                                        <h5 style={{marginTop: '5px'}}> {stuff.priceStuff} €</h5>
+                                        <p>{stuff.cityStuff}</p>
                                     </div>
                                 </div>
                             </div>
@@ -44,4 +43,4 @@ function BikeSortPriceDown(props) {
 }
 
 
-export default BikeSortPriceDown
+export default StuffSortPriceUp

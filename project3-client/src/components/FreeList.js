@@ -19,17 +19,17 @@ function FreeList(props) {
 
   return (
     <div>
-       <h1>Free Stuff  </h1>
+      
           {
             props.frees.map((free, i) => {
               return(
-                <Link to={`/free/${free._id}`}>
-                    <div key={free._id} style={{display: 'flex'}} >
-                      <div style={{display: 'flex', border: '2px solid black', width: '100%', marginRight: '30px', marginTop: '5px'}} >
-                        <img src={free.image} alt={'stuff'} style={{width: '130px', height: '80px', margin: '2px'}}/>
-                        <div style={{marginLeft: '5px'}} >
-                          <p>Name: {free.nameFree}</p>
-                          <p>City: {free.cityFree}</p>
+                <Link to={`/free/${free._id}`} key={free._id}>
+                    <div style={{display: 'flex', backgroundColor: '#f9f9f9'}} >
+                      <div style={{display: 'flex',  width: '100%', marginRight: '30px', marginTop: '10px', backgroundColor: '#ccdbfd', borderRadius: '7px'}} >
+                        <img src={free.image} alt={'stuff'} style={{width: '130px', height: '80px', margin: '2px', borderRadius: '7px'}}/>
+                        <div style={{marginLeft: '7px', marginBottom: '0px'}} >
+                          <h5 style={{marginTop: '5px'}}> {free.nameFree}</h5>
+                          <p>{free.cityFree}</p>
                         </div>
                       </div>
                     </div>

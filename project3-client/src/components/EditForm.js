@@ -64,13 +64,14 @@ class EditForm extends Component {
 
         return (
             <div>
-                <img src={image} alt={'bike'} style={{width: '250px', border: '2px solid black'}} />
-                <h3 style={{marginTop: '5px'}}>Price: <input onChange={this.handlePriceChange} type="number" value={price} style={{width: '150px'}}></input> €</h3>
-                <h3 style={{marginTop: '5px'}}>City: {city}</h3>
-                <h3 style={{marginTop: '5px'}}>Size: {size}</h3>
-                <h3 style={{marginTop: '5px'}}>Bike type: {bikeType} </h3>
-                <h3 style={{marginTop: '5px'}}>Phone: +386 {phone}</h3>
-                <button onClick={() => { this.props.onEdit(this.state.bike) }  } >Edit</button>
+                <img src={image} alt={'bike'} style={{width: '290px', borderRadius: '20px'}} />
+                <h3 style={{marginTop: '5px'}}>Price: <input onChange={this.handlePriceChange} type="number" value={price} style={{width: '190px'}}></input> €</h3>
+                <h3 style={{marginTop: '5px', color: '#255ed6'}}>City: {city}</h3>
+                <h3 style={{marginTop: '5px', color: '#255ed6'}}>Size: {size}</h3>
+                <h3 style={{marginTop: '5px', color: '#255ed6'}}>Bike type: {bikeType} </h3>
+                <h3 style={{marginTop: '5px', color: '#255ed6'}}>Phone: +386 {phone}</h3>
+                <button onClick={() => { this.props.onEdit(this.state.bike) }  }  style={{marginTop: '15px', width: '120px', borderRadius: '20px'}}><h3>Edit</h3></button>
+                
             </div>
         )
     }

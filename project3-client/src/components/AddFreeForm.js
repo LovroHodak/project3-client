@@ -11,17 +11,16 @@ function AddFreeForm(props) {
 
     return (
         <div>
-        <h1>addFREEForm </h1>
             <form onSubmit={props.onAddFree} style={{display: 'flex', flexDirection: 'column', marginRight: '20px'}}>
-                <input type="file" name="image"  />
-                <label>Name:</label>
-                <input name="nameFree" type="text" placeholder="name of product"></input>
-                <label>Phone:</label>
-                <input name="phoneFree" type="number" placeholder="Enter phone number"/>
-                <label>City:</label>
-                <input name="cityFree" type="text" placeholder="Enter city"/>
+                <input type="file" name="image" />
+                <label style={{marginBottom: '0px', marginTop: '3px'}}><h4 style={{color: '#255ed6'}}>Name:</h4></label>
+                <input name="nameFree" type="text" placeholder="name of product" style={{marginRight: '36px'}}></input>
+                <label style={{marginBottom: '0px', marginTop: '3px'}}><h4 style={{color: '#255ed6'}}>Phone:</h4></label>
+                <input name="phoneFree" type="number" placeholder="Enter phone number" style={{marginRight: '36px'}}/>
+                <label style={{marginBottom: '0px', marginTop: '3px'}}><h4 style={{color: '#255ed6'}}>City:</h4></label>
+                <input name="cityFree" type="text" placeholder="Enter city" style={{marginRight: '36px'}}/>
                 <br></br>
-                <button type="submit">Submit</button>
+                <button type="submit" style={{marginTop: '15px', width: '120px', marginRight: '35px', marginLeft: '83px', borderRadius: '20px', color: 'white', backgroundColor: '#255ed6'}}><h3>Submit</h3></button>
             </form>
         </div>
     )

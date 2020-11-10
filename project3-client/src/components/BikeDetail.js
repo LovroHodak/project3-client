@@ -52,7 +52,7 @@ export default class BikeDetail extends Component {
                                 </button>
                             </div>
                             ) : (<div></div>)
-                        }
+                    }
                     
                 </div> 
             </div>

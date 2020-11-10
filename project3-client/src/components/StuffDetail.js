@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios' 
+import axios from 'axios'
+import { Link } from 'react-router-dom' 
 
 
 export default class StuffDetail extends Component {
@@ -23,19 +24,33 @@ export default class StuffDetail extends Component {
 
         const {categoryStuff, nameStuff, priceStuff, phoneStuff, cityStuff, image, _id} = this.state.stuff
 
+        const {loggedInUser} = this.props
+
         return (
             <div>
                 <div>
-                    <img src={image} alt={'stuff'} style={{width: '250px', border: '2px solid black'}} /> 
+                    <img src={image} alt={'stuff'} style={{width: '290px', borderRadius: '20px'}} /> 
                 </div>
-                <div style={{marginTop: '15px'}}>       
-                    <h3 style={{marginTop: '5px'}}>Category: {categoryStuff} €</h3>
+                <div style={{marginTop: '15px'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between'}} >
+                        <h2 style={{marginTop: '5px', color: '#255ed6'}}>{cityStuff}</h2>
+                        <h2 style={{marginTop: '5px', marginRight: '35px', color: '#255ed6'}}>{priceStuff} €</h2>
+                    </div>      
+                    <h3 style={{marginTop: '5px'}}>Category: {categoryStuff}</h3>
                     <h3 style={{marginTop: '5px'}}>Name: {nameStuff}</h3>
-                    <h3 style={{marginTop: '5px'}}>Price: {priceStuff}</h3>
-                    <h3 style={{marginTop: '5px'}}>Phone: +386{phoneStuff} </h3>
-                    
-                    <h3 style={{marginTop: '5px'}}>City: {cityStuff}</h3>
-                    <button onClick={() => { this.props.onDeleteStuff(_id) } } style={{marginTop: '15px', marginLeft: '90px'}}><h2>Delete</h2></button>
+                    <h2 style={{marginTop: '5px'}}>+386 {phoneStuff} </h2>
+                    { 
+                        loggedInUser ? (
+                            <div style={{display: 'flex', justifyContent: 'space-between'}}>
+                                <Link to={`/stuff/${_id}/edit`} >
+                                    <button style={{marginTop: '15px', width: '120px', borderRadius: '20px'}}><h3>Edit</h3></button>
+                                </Link>
+                                <button onClick={() => { this.props.onDeleteStuff(_id) } }  style={{marginTop: '15px', width: '120px', marginRight: '35px',  borderRadius: '20px', color: 'white', backgroundColor: '#d64e25'}}>
+                                    <h3>Delete</h3>
+                                </button>
+                            </div>
+                            ) : (<div></div>)
+                    }
                 </div> 
             </div>
         )
