@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom' 
+import {API_URL} from '../config'
 
 
 export default class StuffDetail extends Component {
@@ -12,7 +13,7 @@ export default class StuffDetail extends Component {
     componentDidMount() {
         let stuffId = this.props.match.params.stuffId
         console.log(this.props)
-         axios.get(`http://localhost:5000/api/stuffs/${stuffId}`)
+         axios.get(`${API_URL}/stuffs/${stuffId}`, {withCredentials: true})
              .then((response) => {
                  this.setState({
                      stuff: response.data

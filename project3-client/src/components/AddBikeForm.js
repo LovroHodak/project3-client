@@ -5,15 +5,22 @@ import { Redirect } from 'react-router-dom'
 function AddBikeForm(props) {
 
     //props.onAdd = function
+    
+
+    const [ webcamImage, setwebcamImage ] = React.useState(null)
+    
+    const handleWebcam = (img) => {
+        setwebcamImage(img)
+    }
+
     if (!props.loggedInUser) {
         return <Redirect to={'/sign-in'} />
     }
     
-
     return (
         <div>
-            <form onSubmit={props.onAdd} style={{display: 'flex', flexDirection: 'column', marginRight: '30px'}}>
-                <WebcamCapture />
+            <form onSubmit={(e)=> props.onAdd(e, webcamImage)} style={{display: 'flex', flexDirection: 'column', marginRight: '30px'}}>
+                <WebcamCapture onAdd={handleWebcam}/>
                 <input type="file" name="image"  />
                 <label style={{marginBottom: '0px', marginTop: '3px'}}><h4 style={{color: '#255ed6'}}>Price:</h4></label>
                 <input name="price" type="number" placeholder="Euro €"></input>

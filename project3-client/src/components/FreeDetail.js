@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios' 
+import {API_URL} from '../config'
 
 
 export default class FreeDetail extends Component {
@@ -11,7 +12,7 @@ export default class FreeDetail extends Component {
     componentDidMount() {
         let freeId = this.props.match.params.freeId
         console.log(this.props)
-         axios.get(`http://localhost:5000/api/frees/${freeId}`)
+         axios.get(`${API_URL}/frees/${freeId}`, {withCredentials: true})
              .then((response) => {
                  this.setState({
                      free: response.data

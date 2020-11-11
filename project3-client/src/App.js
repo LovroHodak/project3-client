@@ -23,6 +23,7 @@ import BikeSortPriceDown from './components/BikeSortPriceDown'
 import BikeSortPriceUp from './components/BikeSortPriceUp'
 import StuffSortPriceDown from './components/StuffSortPriceDown'
 import StuffSortPriceUp from './components/StuffSortPriceUp'
+import {API_URL} from './config'
 
 
 
@@ -40,12 +41,13 @@ class App extends Component {
     bikeSortPriceDown: [],
     bikeSortPriceUp: [],
     stuffSortPriceDown: [],
-    stuffSortPriceUp: []
+    stuffSortPriceUp: [],
+    passImage: []
   }
 
   componentDidMount() {
     if (!this.state.loggedInUser) {
-      axios.get(`http://localhost:5000/api/user`, {withCredentials: true})
+      axios.get(`${API_URL}/user`, {withCredentials: true})
         .then((response) => {
             this.setState({
               loggedInUser: response.data
@@ -54,7 +56,7 @@ class App extends Component {
     }
 
 
-    axios.get(`http://localhost:5000/api/bikes`)
+    axios.get(`${API_URL}/bikes`, {withCredentials: true})
     .then((response) => {
       let sortedDown = JSON.parse(JSON.stringify(response.data))
       let sortedUp = JSON.parse(JSON.stringify(response.data))
@@ -73,7 +75,7 @@ class App extends Component {
       })
     })
 
-    axios.get(`http://localhost:5000/api/stuffs`)
+    axios.get(`${API_URL}/stuffs`, {withCredentials: true})
     .then((response) => {
       let sorteddDown = JSON.parse(JSON.stringify(response.data))
       let sorteddUp = JSON.parse(JSON.stringify(response.data))
@@ -92,7 +94,7 @@ class App extends Component {
       })
     })
 
-    axios.get(`http://localhost:5000/api/frees`)
+    axios.get(`${API_URL}/frees`, {withCredentials: true})
     .then((response) => {
       this.setState({
         frees: response.data.sort((a, b) => {
@@ -110,17 +112,23 @@ class App extends Component {
 
 
 
-  handleAdd = (e) => {
+  handleAdd = (e, someImg) => {
     e.preventDefault()
     const {price, size, bikeType, image, phone, city} = e.target
-    
-    let imageFile = image.files[0]
+    console.log(someImg)
+    let imageFile = null
 
+    if (image && image.files.length){
+      imageFile = image.files[0]
+    } else {
+      imageFile = someImg
+    }
+    console.log(imageFile)
     let uploadForm = new FormData()
     uploadForm.append('imageUrl', imageFile)
     
 
-    axios.post(`http://localhost:5000/api/upload`, uploadForm)
+    axios.post(`${API_URL}/upload`, uploadForm, {withCredentials: true})
       .then((response) => {
         let newBike = {
           price: price.value,
@@ -130,7 +138,7 @@ class App extends Component {
           phone: phone.value,
           city: city.value
         }
-        axios.post(`http://localhost:5000/api/create`, newBike)
+        axios.post(`${API_URL}/create`, newBike, {withCredentials: true})
         .then((response) => {
           this.setState({
             bikes: [ response.data , ...this.state.bikes]
@@ -144,25 +152,7 @@ class App extends Component {
 
   }
 
-  uploadPassImage= e => {
-    const files = Array.of(this.state.passImage)
-    
-    
-        const formData = new FormData()
-    
-        files.forEach((file, i) => {
-          formData.append(i, file)
-        })
-          fetch(`http://localhost:3030/imageUploadPassImage`, {
-            method: 'POST',
-            body: formData
-          })
-          .then(res => res.json())
-          .then(images => {
-            this.setState({passImage: images[0].url}) 
-    //sets the data in the state for uploading into SQL database later
-          })
-        }
+  
 
   handleAddStuff = (e) => {
     e.preventDefault()
@@ -174,7 +164,7 @@ class App extends Component {
     uploadForm.append('imageUrl', imageFile)
     
 
-    axios.post(`http://localhost:5000/api/upload`, uploadForm)
+    axios.post(`${API_URL}/upload`, uploadForm, {withCredentials: true})
       .then((response) => {
         let newStuff = {
           categoryStuff: categoryStuff.value,
@@ -185,7 +175,7 @@ class App extends Component {
           image: response.data.image
 
         }
-        axios.post(`http://localhost:5000/api/createS`, newStuff)
+        axios.post(`${API_URL}/createS`, newStuff, {withCredentials: true})
         .then((response) => {
           this.setState({
             stuffs: [ response.data , ...this.state.stuffs]
@@ -209,7 +199,7 @@ class App extends Component {
     uploadForm.append('imageUrl', imageFile)
     
 
-    axios.post(`http://localhost:5000/api/upload`, uploadForm)
+    axios.post(`${API_URL}/upload`, uploadForm, {withCredentials: true})
       .then((response) => {
         let newFree = {
           nameFree: nameFree.value,
@@ -218,7 +208,7 @@ class App extends Component {
           image: response.data.image
 
         }
-        axios.post(`http://localhost:5000/api/createF`, newFree)
+        axios.post(`${API_URL}/createF`, newFree)
         .then((response) => {
           this.setState({
             frees: [ response.data , ...this.state.frees]
@@ -233,7 +223,7 @@ class App extends Component {
   }
 
   handleDelete = (bikeId) => {
-    axios.delete(`http://localhost:5000/api/bikes/${bikeId}`)
+    axios.delete(`${API_URL}/bikes/${bikeId}`, {withCredentials: true})
       .then(() => {
           let filteredBikes = this.state.bikes.filter((bike) => {
               return bike._id !== bikeId
@@ -249,7 +239,7 @@ class App extends Component {
   }
 
   handleDeleteStuff = (stuffId) => {
-    axios.delete(`http://localhost:5000/api/stuffs/${stuffId}`)
+    axios.delete(`${API_URL}/stuffs/${stuffId}`,{withCredentials: true})
       .then(() => {
           let filteredStuffs = this.state.stuffs.filter((stuff) => {
               return stuff._id !== stuffId
@@ -265,7 +255,7 @@ class App extends Component {
   }
 
   handleDeleteFree = (freeId) => {
-    axios.delete(`http://localhost:5000/api/frees/${freeId}`)
+    axios.delete(`${API_URL}/frees/${freeId}`, {withCredentials: true})
       .then(() => {
           let filteredFrees = this.state.frees.filter((free) => {
               return free._id !== freeId
@@ -281,13 +271,13 @@ class App extends Component {
   }
 
   handleEdit = (bike) => {
-    axios.patch(`http://localhost:5000/api/bikes/${bike._id}`, {
+    axios.patch(`${API_URL}/bikes/${bike._id}`, {
       price: bike.price,
       size: bike.size,
       bikeType: bike.bikeType,
       phone: bike.phone,
       city: bike.city
-    })
+    }, {withCredentials: true})
     .then(() => {
         let updatedBikes = this.state.bikes.map((myBike) => {
           if (myBike._id === bike._id) {
@@ -298,6 +288,7 @@ class App extends Component {
 
         this.setState({
           bikes: updatedBikes
+
         }, () => {
           this.props.history.push('/')
         })
@@ -305,13 +296,13 @@ class App extends Component {
   }
 
   handleEditStuff = (stuff) => {
-    axios.patch(`http://localhost:5000/api/stuffs/${stuff._id}`, {
+    axios.patch(`${API_URL}/stuffs/${stuff._id}`, {
       categoryStuff: stuff.categoryStuff,
       priceStuff: stuff.priceStuff,
       nameStuff: stuff.nameStuff,
       phoneStuff: stuff.phoneStuff,
       cityStuff: stuff.cityStuff
-    })
+    }, {withCredentials: true})
     .then(() => {
         let updatedStuffs = this.state.stuffs.map((myStuff) => {
           if (myStuff._id === stuff._id) {
@@ -332,7 +323,7 @@ class App extends Component {
     e.preventDefault()
     const {username, email, password} = e.target
 
-    axios.post(`http://localhost:5000/api/signup` , {
+    axios.post(`${API_URL}/signup` , {
       username: username.value, 
       email: email.value, 
       password: password.value
@@ -344,6 +335,12 @@ class App extends Component {
         this.props.history.push('/')
       })
     })
+    .catch((error) => {
+      console.log(error.response)
+      this.setState({
+        errorMessage: error.response.data.errorMessage
+      })
+  })
 
 
   }
@@ -354,7 +351,7 @@ class App extends Component {
     e.preventDefault()
     const {email, password} = e.target
 
-    axios.post(`http://localhost:5000/api/signin` , {
+    axios.post(`${API_URL}/signin` , {
       email: email.value, 
       password: password.value
     }, {withCredentials: true})
@@ -373,7 +370,7 @@ class App extends Component {
   }
 
   handleLogOut = (e) => {
-    axios.post(`http://localhost:5000/api/logout`, {}, {withCredentials: true})
+    axios.post(`${API_URL}/logout`, {}, {withCredentials: true})
       .then(() => {
           this.setState({
             loggedInUser: null
@@ -406,7 +403,7 @@ class App extends Component {
             return <BikeList bikes={this.state.bikes} />
           }} />
           <Route path='/sellBike' render={() => {
-            return <AddBikeForm loggedInUser={loggedInUser} onAdd={this.handleAdd} onUpload={this.uploadPassImage} />
+            return <AddBikeForm loggedInUser={loggedInUser} onAdd={this.handleAdd} />
           }} />
           <Route exact path='/bike/:bikeId'  render={(routeProps) => {
             return <BikeDetail onDelete={this.handleDelete} loggedInUser={loggedInUser} {...routeProps}/>
@@ -443,7 +440,7 @@ class App extends Component {
             return <SignIn onUnmount={this.handleUnMount}  errorMessage={errorMessage}   onSignIn={this.handleSignIn} {...routeProps} />
           }}/>
           <Route path="/sign-up" render={(routeProps) => {
-            return <SignUp onSignUp={this.handleSignUp} {...routeProps} />
+            return <SignUp onUnmount={this.handleUnMount} errorMessage={errorMessage} onSignUp={this.handleSignUp} {...routeProps} />
           }}/>
 
           <Route exact path='/bikeSortPriceDown' render={() => {

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios' 
+import {API_URL} from '../config'
 
 
 class EditForm extends Component {
@@ -10,7 +11,7 @@ class EditForm extends Component {
 
     componentDidMount() {
        let bikeId = this.props.match.params.bikeId
-        axios.get(`http://localhost:5000/api/bikes/${bikeId}`)
+        axios.get(`${API_URL}/bikes/${bikeId}`, {withCredentials: true})
             .then((response) => {
                 this.setState({
                     bike: response.data

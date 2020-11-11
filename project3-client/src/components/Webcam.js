@@ -10,6 +10,8 @@ const WebcamCapture = (props) => {
   
     const capture = React.useCallback(() => {
       const imageSrc = webcamRef.current.getScreenshot();
+      console.log(webcamRef.current)
+      props.onAdd(imageSrc)
       setImgSrc(imageSrc);
     }, [webcamRef, setImgSrc]);
   
@@ -28,9 +30,7 @@ const WebcamCapture = (props) => {
                   src={imgSrc} alt={'screenshot'}
                   style={{marginBottom: '10px'}}
                 />
-                <button onClick={props.onUpload} style={{marginBottom: '10px'}}>Doesn't work yet</button>
-                <p>Copy image URL</p>
-                <input value={imgSrc} style={{marginBottom: '10px'}}></input>
+                
                 
               </div>
           )}

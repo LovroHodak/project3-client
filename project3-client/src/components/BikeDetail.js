@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios' 
 import { Link } from 'react-router-dom'
+import {API_URL} from '../config'
 
 
 
@@ -13,7 +14,7 @@ export default class BikeDetail extends Component {
     componentDidMount() {
         let bikeId = this.props.match.params.bikeId
         console.log(this.props)
-         axios.get(`http://localhost:5000/api/bikes/${bikeId}`)
+         axios.get(`${API_URL}/bikes/${bikeId}`, {withCredentials: true})
              .then((response) => {
                  this.setState({
                      bike: response.data
@@ -23,8 +24,10 @@ export default class BikeDetail extends Component {
 
     render() {
 
-        const {price, size, bikeType, image, phone, city, _id} = this.state.bike
+        const {price, size, bikeType, image, phone, city, _id, ownerId} = this.state.bike
         const {loggedInUser} = this.props
+        console.log('loggedInUserId:', loggedInUser._id)
+        console.log('ownerId:', ownerId)
 
         
 
@@ -41,8 +44,9 @@ export default class BikeDetail extends Component {
                     <h3 style={{marginTop: '5px'}}>Size: {size}</h3>
                     <h3 style={{marginTop: '5px'}}>Bike type: {bikeType} </h3>
                     <h2 style={{marginTop: '15px', color: '#255ed6'}}>+386 {phone}</h2>
+                    <h2 style={{marginTop: '15px', color: '#255ed6'}}>tesz {ownerId}</h2>
                     { 
-                        loggedInUser ? (
+                        loggedInUser && loggedInUser._id === ownerId ? (
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <Link to={`/bike/${_id}/edit`} >
                                     <button style={{marginTop: '15px', width: '120px', borderRadius: '20px'}}><h3>Edit</h3></button>
