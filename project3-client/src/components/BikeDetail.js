@@ -26,10 +26,11 @@ export default class BikeDetail extends Component {
 
         const {price, size, bikeType, image, phone, city, _id, ownerId} = this.state.bike
         const {loggedInUser} = this.props
-        console.log('loggedInUserId:', loggedInUser._id)
-        console.log('ownerId:', ownerId)
+        /*
+        if (!loggedInUser){
 
-        
+        }
+        */
 
         return (
             <div>
