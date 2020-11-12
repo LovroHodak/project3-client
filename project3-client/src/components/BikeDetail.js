@@ -34,7 +34,7 @@ export default class BikeDetail extends Component {
 
         return (
             <div>
-                <div>
+                <div style={{maxWidth: '360px'}} >
                     <img src={image} alt={'bike'} style={{width: '290px', borderRadius: '20px'}} /> 
                 </div>
                 <div style={{marginTop: '15px'}}>       
@@ -45,7 +45,6 @@ export default class BikeDetail extends Component {
                     <h3 style={{marginTop: '5px'}}>Size: {size}</h3>
                     <h3 style={{marginTop: '5px'}}>Bike type: {bikeType} </h3>
                     <h2 style={{marginTop: '15px', color: '#255ed6'}}>+386 {phone}</h2>
-                    <h2 style={{marginTop: '15px', color: '#255ed6'}}>tesz {ownerId}</h2>
                     { 
                         loggedInUser && loggedInUser._id === ownerId ? (
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>

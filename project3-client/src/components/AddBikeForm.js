@@ -20,6 +20,7 @@ function AddBikeForm(props) {
     return (
         <div>
             <form onSubmit={(e)=> props.onAdd(e, webcamImage)} style={{display: 'flex', flexDirection: 'column', marginRight: '30px'}}>
+                 <h5 style={{color: '#d64e25'}}>Capture photo <span style={{color: '#255ed6'}}>OR</span> Choose file</h5>
                 <WebcamCapture onAdd={handleWebcam}/>
                 <input type="file" name="image"  />
                 <label style={{marginBottom: '0px', marginTop: '3px'}}><h4 style={{color: '#255ed6'}}>Price:</h4></label>
@@ -34,6 +35,8 @@ function AddBikeForm(props) {
                 <input name="city" type="text" placeholder="Enter city"/>
                 <br></br>
                 <button type="submit" style={{marginTop: '35px', width: '120px', marginRight: '35px', marginLeft: '83px', borderRadius: '20px', color: 'white', backgroundColor: '#255ed6'}}><h2>Submit</h2></button>
+                
+                
             </form>
         </div>
     )

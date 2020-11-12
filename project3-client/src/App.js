@@ -46,6 +46,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+    
     if (!this.state.loggedInUser) {
       axios.get(`${API_URL}/user`, {withCredentials: true})
         .then((response) => {
@@ -54,7 +55,7 @@ class App extends Component {
             })
         })
     }
-
+    
 
     axios.get(`${API_URL}/bikes`, {withCredentials: true})
     .then((response) => {
@@ -74,7 +75,7 @@ class App extends Component {
         bikeSortPriceUp: sortedUp.sort((a, b) => {return b.price - a.price})
       })
     })
-
+    
     axios.get(`${API_URL}/stuffs`, {withCredentials: true})
     .then((response) => {
       let sorteddDown = JSON.parse(JSON.stringify(response.data))
@@ -108,8 +109,9 @@ class App extends Component {
         })
       })
     })
+  
   }
-
+  
 
 
   handleAdd = (e, someImg) => {
@@ -124,6 +126,7 @@ class App extends Component {
       imageFile = someImg
     }
     console.log(imageFile)
+
     let uploadForm = new FormData()
     uploadForm.append('imageUrl', imageFile)
     
@@ -146,19 +149,29 @@ class App extends Component {
             this.props.history.push('/')
           })
         })
+        
+        
 
       })
+     
 
 
   }
 
   
 
-  handleAddStuff = (e) => {
+  handleAddStuff = (e, someImg) => {
     e.preventDefault()
     const {categoryStuff, nameStuff, priceStuff, phoneStuff, cityStuff, image} = e.target
     
-    let imageFile = image.files[0]
+    let imageFile = null
+
+    if (image && image.files.length){
+      imageFile = image.files[0]
+    } else {
+      imageFile = someImg
+    }
+    console.log(imageFile)
 
     let uploadForm = new FormData()
     uploadForm.append('imageUrl', imageFile)
@@ -189,11 +202,19 @@ class App extends Component {
 
   }
 
-  handleAddFree = (e) => {
+  handleAddFree = (e, someImg) => {
     e.preventDefault()
     const {nameFree, phoneFree, cityFree, image} = e.target
     
-    let imageFile = image.files[0]
+    let imageFile = null
+
+    if (image && image.files.length){
+      imageFile = image.files[0]
+    } else {
+      imageFile = someImg
+    }
+    console.log(imageFile)
+
 
     let uploadForm = new FormData()
     uploadForm.append('imageUrl', imageFile)
@@ -208,7 +229,7 @@ class App extends Component {
           image: response.data.image
 
         }
-        axios.post(`${API_URL}/createF`, newFree)
+        axios.post(`${API_URL}/createF`, newFree, {withCredentials: true})
         .then((response) => {
           this.setState({
             frees: [ response.data , ...this.state.frees]
@@ -223,7 +244,7 @@ class App extends Component {
   }
 
   handleDelete = (bikeId) => {
-    axios.delete(`${API_URL}/bikes/${bikeId}`, {withCredentials: true})
+    axios.delete(`${API_URL}/bikes/${bikeId}`, {}, {withCredentials: true})
       .then(() => {
           let filteredBikes = this.state.bikes.filter((bike) => {
               return bike._id !== bikeId
@@ -239,7 +260,7 @@ class App extends Component {
   }
 
   handleDeleteStuff = (stuffId) => {
-    axios.delete(`${API_URL}/stuffs/${stuffId}`,{withCredentials: true})
+    axios.delete(`${API_URL}/stuffs/${stuffId}`,{}, {withCredentials: true})
       .then(() => {
           let filteredStuffs = this.state.stuffs.filter((stuff) => {
               return stuff._id !== stuffId
@@ -255,7 +276,7 @@ class App extends Component {
   }
 
   handleDeleteFree = (freeId) => {
-    axios.delete(`${API_URL}/frees/${freeId}`, {withCredentials: true})
+    axios.delete(`${API_URL}/frees/${freeId}`, {}, {withCredentials: true})
       .then(() => {
           let filteredFrees = this.state.frees.filter((free) => {
               return free._id !== freeId
@@ -403,7 +424,7 @@ class App extends Component {
             return <BikeList bikes={this.state.bikes} />
           }} />
           <Route path='/sellBike' render={() => {
-            return <AddBikeForm loggedInUser={loggedInUser} onAdd={this.handleAdd} />
+            return <AddBikeForm loggedInUser={loggedInUser} errorMessage={errorMessage} onAdd={this.handleAdd} />
           }} />
           <Route exact path='/bike/:bikeId'  render={(routeProps) => {
             return <BikeDetail onDelete={this.handleDelete} loggedInUser={loggedInUser} {...routeProps}/>

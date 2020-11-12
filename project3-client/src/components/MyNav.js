@@ -2,13 +2,15 @@ import React from 'react'
 import {Navbar, Nav} from 'react-bootstrap'
 import {Link} from 'react-router-dom'
 
+
+
 export default function MyNav(props) {
 
     //let buttonStyle = {marginLeft: '10px', color: '#3796b6'}
     
     
     return (
-        <Navbar collapseOnSelect bg="light" expand="lg">
+        <Navbar collapseOnSelect bg="light" expand="true">
             <Link to={`/`}><h1 style={{fontFamily: 'Bangers', marginTop: '10px', marginRight: '5px'}} >CLICK'N'RIDE</h1></Link>
             <Navbar.Toggle aria-controls="basic-navbar-nav" style={{backgroundColor: 'white', border: '0px', boxShadow: '0px 15px 45px'}} />
                 <Navbar.Collapse id="basic-navbar-nav">

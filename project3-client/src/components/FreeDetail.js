@@ -22,7 +22,7 @@ export default class FreeDetail extends Component {
 
     render() {
 
-        const {nameFree, phoneFree, cityFree, image, _id} = this.state.free
+        const {nameFree, phoneFree, cityFree, image, _id, ownerId} = this.state.free
 
         const {loggedInUser} = this.props
 
@@ -37,7 +37,7 @@ export default class FreeDetail extends Component {
                     <h3 style={{marginTop: '10px'}}>Name: {nameFree}</h3>
                     <h3 style={{marginTop: '10px'}}>+386 {phoneFree} </h3>
                     {
-                        loggedInUser ? (
+                        loggedInUser && loggedInUser._id === ownerId ? (
                             <button onClick={() => { this.props.onDeleteFree(_id) } } style={{marginTop: '35px', width: '120px', marginRight: '35px', marginLeft: '83px', borderRadius: '20px', color: 'white', backgroundColor: '#d64e25'}}><h2>Delete</h2></button>
                         ) : (
                             <div></div>

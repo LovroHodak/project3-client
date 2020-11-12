@@ -23,13 +23,19 @@ const WebcamCapture = (props) => {
             ref={webcamRef}
             screenshotFormat="image/jpeg"
           />
-          <button onClick={capture} style={{marginBottom: '10px'}}>Capture photo</button>
+          <button onClick={capture} style={{marginBottom: '10px'}}>
+            Capture photo
+          </button>
           {imgSrc && (
               <div>
-                <img
-                  src={imgSrc} alt={'screenshot'}
-                  style={{marginBottom: '10px'}}
-                />
+                <a href={imgSrc} download >
+                  <img
+                    src={imgSrc} alt={'screenshot'}
+                    style={{marginBottom: '10px'}}
+                  />
+                </a>
+                <h5 style={{color: '#d64e25'}}><span style={{color: '#255ed6'}}>1.</span> Press on photo to download</h5>
+                <h5 style={{color: '#d64e25'}}><span style={{color: '#255ed6'}}>2.</span> Choose file</h5>
                 
                 
               </div>

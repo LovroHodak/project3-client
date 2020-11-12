@@ -1,18 +1,29 @@
 import React from 'react'
 import { Redirect } from 'react-router-dom'
+import WebcamCapture from './Webcam'
+
 
 function AddStuffForm(props) {
 
     //props.onAdd = function
+    const [ webcamImage, setwebcamImage ] = React.useState(null)
+    
+    const handleWebcam = (img) => {
+        setwebcamImage(img)
+    }
+
     if (!props.loggedInUser) {
         return <Redirect to={'/sign-in'} />
     }
     
     
+    
 
     return (
         <div>
-            <form onSubmit={props.onAddStuff} style={{display: 'flex', flexDirection: 'column', marginRight: '20px'}}>
+            <form onSubmit={(e)=> props.onAddStuff(e, webcamImage)} style={{display: 'flex', flexDirection: 'column', marginRight: '20px'}}>
+                <h5 style={{color: '#d64e25'}}>Capture photo <span style={{color: '#255ed6'}}>OR</span> Choose file</h5>
+                <WebcamCapture onAdd={handleWebcam}/>
                 <input type="file" name="image"/>
                 <label style={{marginBottom: '0px', marginTop: '3px'}} ><h4 style={{color: '#255ed6'}}>Category:</h4></label>
                 <input name="categoryStuff" type="text" placeholder="parts/ accecories/ other"  style={{marginRight: '36px'}} ></input>

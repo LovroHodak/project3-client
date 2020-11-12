@@ -8,7 +8,7 @@ import {BrowserRouter} from 'react-router-dom'
 ReactDOM.render(
   <BrowserRouter>
     <React.StrictMode>
-      <App />
+      <App style={{marginTop: '200px'}} />
 
       
     </React.StrictMode>

@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import {API_URL} from '../config'
 
 
+
 export default class StuffDetail extends Component {
 
     state ={
@@ -23,7 +24,7 @@ export default class StuffDetail extends Component {
 
     render() {
 
-        const {categoryStuff, nameStuff, priceStuff, phoneStuff, cityStuff, image, _id} = this.state.stuff
+        const {categoryStuff, nameStuff, priceStuff, phoneStuff, cityStuff, image, _id, ownerId} = this.state.stuff
 
         const {loggedInUser} = this.props
 
@@ -41,7 +42,7 @@ export default class StuffDetail extends Component {
                     <h3 style={{marginTop: '5px'}}>Name: {nameStuff}</h3>
                     <h2 style={{marginTop: '5px'}}>+386 {phoneStuff} </h2>
                     { 
-                        loggedInUser ? (
+                        loggedInUser && loggedInUser._id === ownerId ? (
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
                                 <Link to={`/stuff/${_id}/edit`} >
                                     <button style={{marginTop: '15px', width: '120px', borderRadius: '20px'}}><h3>Edit</h3></button>
